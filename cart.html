@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="/static/style.css" type="text/css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body>
+    <div class="cart">
+        <h2>Your Cart</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>₹{{ item.price }}</td>
+                    <td>
+                        <form action="/update_quantity" method="post">
+                            <input type="hidden" name="product_name" value="{{ item.product_name }}">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" step="1">
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td class="total-price">₹{{ item.total_price }}</td>
+                    <td>
+                        <form action="/remove_item" method="post">
+                            <input type="hidden" name="product_name" value="{{ item.product_name }}">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+           
+            </div>
+        </table>
+    </div>
+</body>
+</html>
+
+
+

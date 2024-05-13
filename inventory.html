@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: transparent;
+            background: url('static/3.png');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            position: absolute;
+            justify-content: center; /* Center horizontally */
+            align-items: flex-start;
+            left: 650px;
+            top: 10px;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* Align items from the start */
+            padding: 20px;
+        }
+
+        .category-header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .category-header h2 {
+            background-color: aquamarine;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            top:87px;
+        }
+
+        .product-box {
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+            flex-direction: horizontal;
+            flex: 0 0 calc(35% - 50px);
+            max-width: calc(25% - 40px);
+            min-width: 220px; /* Set the minimum width of each product box */
+            
+            top:63px;
+        }
+
+        .product-box h2 {
+            color: black;
+            text-transform: uppercase;
+        }
+
+        .product-box p {
+            margin: 5px 0;
+        }
+
+        .product-image {
+            max-width: 100%;
+            
+            border-radius: 5px;
+        }
+
+        .product-box button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .product-box button:hover {
+            background-color: #0056b3;
+        }
+        .product-box button[disabled] {
+        background-color: #ccc; /* Change the color to gray for disabled state */
+        cursor: not-allowed;
+        border: none;
+        }
+        .product-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .btn-update,
+        .btn-delete,
+        .btn-cart {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-update:hover,
+        .btn-delete:hover,
+        .btn-cart:hover {
+            background-color: #0056b3;
+        }
+        .search-panel {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.search-panel input[type="text"] {
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    width: 250px;
+}
+
+.search-panel .btn-search {
+    background-color: #007bff; /* Blue color for the search button */
+    color: #fff; /* Text color to white */
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px; /* Increase padding for a bigger button */
+    font-size: 18px; /* Increase font size for better readability */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    background-image: linear-gradient(to right, #007bff, #0056b3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-panel .btn-search:hover {
+    background-color: #0056b3; /* Darker blue color on hover */
+    transform: translateY(-2px);
+}
+
+
+/* Style for the "Search Product" text */
+.search-panel .search-label {
+    color: white; /* Set the text color to white */
+    font-size: 18px; /* Increase the font size for better readability */
+    margin-right: 10px;
+}
+
+    .logout-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    left: 10px; /* Adjust the left position as needed */
+}
+
+.logout-button-container button {
+    background-color: #dc3545; /* Red color for the logout button */
+    color: #fff; /* Text color to white */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.logout-button-container button:hover {
+    background-color: #c82333; /* Darker red color on hover */
+}
+
+   </style>
+</head>
+
+<body>
+    <header>
+        <h1>Inventory</h1>
+    </header>
+    
+    <!-- Search panel -->
+    <div class="search-panel">
+        <form method="POST" action="{{ url_for('search') }}">
+            {{ search_form.hidden_tag() }}
+            <div class="input-group mb-3">
+                {{ search_form.search_query.label(class="input-group-text") }}
+                {{ search_form.search_query(class="form-control") }}
+                <div class="input-group-append">
+                    {{ search_form.submit(class="btn btn-outline-secondary", value="Search") }}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Product container -->
+    <div class="product-container">
+        <!-- Display the searched products here -->
+        {% for product in search_results %}
+        <!-- Display each product as needed -->
+        <div class="product-box">
+            <h2>{{ product.product_name }}</h2>
+            <img src="./../static/{{ product.image_filename }}" class="product-image" width="100" height="100">
+            <p>Price/Unit: ₹{{ product.price }}</p>
+            <p>Quantity: {{ product.quantity }}</p>
+            <p>Total Price: ₹{{ product.total_price }}</p>
+            <p>Expiry Date: {{ product.expiry_date.strftime('%Y-%m-%d') }}</p>
+            <p>Description: {{ product.description }}</p>
+
+            <a href="{{ url_for('update_product', product_name=product.product_name) }}">
+                <button type="button">Update Product</button>
+            </a>
+
+            <form method="POST" action="/delete_product">
+                <input type="hidden" name="product_name" value="{{ product.product_name }}">
+                <button type="submit">Delete Product</button>
+            </form>
+
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="productName" value="{{ product.product_name }}">
+                <input type="hidden" name="productPrice" value="{{ product.price }}">
+                <button type="submit" {% if product.expiry_date <= current_datetime.date() %}disabled{% endif %}>
+                    {% if product.expiry_date <= current_datetime.date() %}Expired{% else %}Add to Cart{% endif %}
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+
+        <!-- Rest of your inventory products -->
+        {% for category, products in categories.items() %}
+        <div class="category-header">
+            <h2>{{ category }}</h2>
+        </div>
+        {% for product in products %}
+        <div class="product-box">
+            <h2>{{ product.product_name }}</h2>
+            <img src="./../static/{{ product.image_filename }}" class="product-image" width="100" height="100">
+            <p>Price/Unit: ₹{{ product.price }}</p>
+            <p>Quantity: {{ product.quantity }}</p>
+            <p>Total Price: ₹{{ product.total_price }}</p>
+            <p>Expiry Date: {{ product.expiry_date.strftime('%Y-%m-%d') }}</p>
+            <p>Description: {{ product.description }}</p>
+
+            <a href="{{ url_for('update_product', product_name=product.product_name) }}">
+                <button type="button">Update Product</button>
+            </a>
+
+            <form method="POST" action="/delete_product">
+                <input type="hidden" name="product_name" value="{{ product.product_name }}">
+                <button type="submit">Delete Product</button>
+            </form>
+
+            <form method="POST" action="/add_to_cart">
+                <input type="hidden" name="productName" value="{{ product.product_name }}">
+                <input type="hidden" name="productPrice" value="{{ product.price }}">
+                <button type="submit" {% if product.expiry_date <= current_datetime.date() %}disabled{% endif %}>
+                    {% if product.expiry_date <= current_datetime.date() %}Expired{% else %}Add to Cart{% endif %}
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="logout-button-container">
+        <form action="{{ url_for('logout') }}" method="post">
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Add Product - Seller Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: #fff;
+            position: absolute;
+            left:-10px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px 0;
+            padding: 31px;
+            background-color: #fff;
+            border-radius: 54px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            margin-top: 15px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button[type="submit"] a {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Add Your Product</h1>
+    <form method="POST" action="/productadd" enctype="multipart/form-data">
+        <id="addProductForm" method="post">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" required>
+
+        <label for="productPrice">Price/unit:</label>
+        <input type="number" id="productPrice" name="productPrice" min="0" step="0.01" required>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="Quanity" name="quantity" required>
+
+        <label for="totalPrice">Total Price:</label>
+        <output id="totalPrice" name="totalPrice">{{ total_price }}</output>
+
+        <label for="productDescription">Description:</label>
+        <textarea id="productDescription" name="productDescription" required></textarea>
+
+        <label for="productCategory">Category:</label>
+        <select id="productCategory" name="productCategory" required>
+            {% for category in category_choices %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="date" id="expiryDate" name="expiryDate" required> <!-- Add expiry date input field -->
+
+        <label for="imageUpload">Insert from Device:</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*">
+        
+        <button type="submit">Add Product</button>
+        <div class="logout-button-container">
+            <form action="{{ url_for('logout') }}" method="post">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+    </form>
+</body>
+</html>

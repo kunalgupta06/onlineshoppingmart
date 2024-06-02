@@ -6,3 +6,4 @@ For users, the application provides a seamless registration and login process, e
 On the seller side, the application features robust inventory management tools. Sellers can register and create profiles to list their products, update stock levels,manage pricing, Update category, remove category etc.
 
 Overall, this web application bridges the gap between consumers and grocery vendors, offering a user-friendly platform that simplifies the shopping experience. Its comprehensive features for user registration, product management, and shopping cart handling ensure a smooth, efficient, and secure online grocery shopping experience, making it a valuable tool for modern consumers and sellers alike.
+
